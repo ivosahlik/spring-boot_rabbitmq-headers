@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
-public class Person implements Serializable {
+public class Elektro implements Serializable {
 
 	Long id;
 	String name;
