@@ -20,6 +20,22 @@ public class RabbitMqController {
 	final RabbitTemplate rabbitTemplate;
 	final ObjectMapper mapper;
 
+	// http://localhost:8080/api/v1/test/noconsumer/noconsumer
+	@GetMapping("/test/noconsumer/{name}")
+	public String testNoConsumerAPI(@PathVariable("name") String name) throws IOException {
+		var p = new Elektro(1L, name);
+
+		var json = mapper.writeValueAsString( p );
+
+		var message = MessageBuilder.withBody(json.getBytes())
+				.setHeader("item1", "noconsumer")
+				.build();
+
+		rabbitTemplate.send("Headers-Exchange", "", message);
+
+		return "Success";
+	}
+
 	// http://localhost:8080/api/v1/test/tv/television
 	@GetMapping("/test/tv/{name}")
 	public String testTvAPI(@PathVariable("name") String name) throws IOException {
