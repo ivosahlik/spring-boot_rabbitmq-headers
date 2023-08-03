@@ -42,11 +42,15 @@ public class MyPictureImageConsumer {
         var picture = objectMapper.readValue(message, Picture.class);
         if (picture.getSize() > 9000) {
             log.info("DLX -> Picture size: {}", picture.getSize());
+
+            // x-dead-letter-exchange -> 	x.mypicture.dlx
             channel.basicReject(tag, false);
             return;
         }
 
         log.info("On image : {}", picture);
+
+        // consumed
         channel.basicAck(tag, false);
     }
 }
